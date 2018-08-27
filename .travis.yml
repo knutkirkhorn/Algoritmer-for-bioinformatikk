@@ -1,0 +1,4 @@
+language: python
+python:
+  - "3.7"
+script: cd exercise-1 && python -m unittest test.py
