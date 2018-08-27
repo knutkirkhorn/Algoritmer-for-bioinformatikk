@@ -1,4 +1,5 @@
 language: python
 python:
-  - "3.7"
+  - "3.6"
+  - "3.7-dev"
 script: cd exercise-1 && python -m unittest test.py
