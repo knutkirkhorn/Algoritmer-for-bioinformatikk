@@ -1,1 +1,1 @@
-# Algoritmer-for-bioinformatikk
+# Algoritmer for bioinformatikk
