@@ -24,6 +24,15 @@ class TestLCS(TestCase):
         expected_solution_3 = "GTAB"
         self.assertEqual(lcs_3, expected_solution_3)
 
+    def test_empty_strings(self):
+        s = ""
+        r = ""
+
+        solution = LCS.find_with_backtrack(s, r)
+        expected_solution = ""
+
+        self.assertEqual(solution, expected_solution)
+
     def test_switching_s_and_r(self):
         lcs = LCS.find_with_backtrack(self.s, self.r)
         lcs_switched = LCS.find_with_backtrack(self.r, self.s)
