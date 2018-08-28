@@ -6,14 +6,30 @@ from LCS import LCS
 class TestLCS(TestCase):
     s = "AGCTTAGC"
     r = "TCGGATG"
-    expected_solution = "CTG"
+    expected_solution = "ATG"  # TODO: replace with all solutions, e.g. CTG, TAG...? aswell
 
     def test_testing(self):
-        length = LCS.find_with_backtrack("SSSS", "SS")
+        # S = "SSSS" and R = "SS" => LCS = "SS"
+        lcs_1 = LCS.find_with_backtrack("SSSS", "SS")
+        expected_solution_1 = "SS"
+        self.assertEqual(lcs_1, expected_solution_1)
 
-        expected_solution = "SS"
+        # S = "ABCDGH" and R = "AEDFHR" => LCS = "ADH"
+        lcs_2 = LCS.find_with_backtrack("ABCDGH", "AEDFHR")
+        expected_solution_2 = "ADH"
+        self.assertEqual(lcs_2, expected_solution_2)
 
-        self.assertEqual(length, expected_solution)
+        # S = "AGGTAB" and R = "GXTXAYB" => LCS = "GTAB"
+        lcs_3 = LCS.find_with_backtrack("AGGTAB", "GXTXAYB")
+        expected_solution_3 = "GTAB"
+        self.assertEqual(lcs_3, expected_solution_3)
+
+    def test_switching_s_and_r(self):
+        lcs = LCS.find_with_backtrack(self.s, self.r)
+        lcs_switched = LCS.find_with_backtrack(self.r, self.s)
+
+        # TODO: test with all elements when done?
+        self.assertEqual(len(lcs), len(lcs_switched))
 
     def test_compute_dp_matrix(self):
         matrices = LCS.compute_dp_matrix(self.s, self.r)
@@ -40,9 +56,9 @@ class TestLCS(TestCase):
     def test_without_backtrack(self):
         length = LCS.find_without_backtrack(self.s, self.r)
 
-        #self.assertEqual(length, 3)  # TODO:
+        # self.assertEqual(length, 3)  # TODO:
 
     def test_find_all_sqsssTODO(self):
         all_TODO_name = LCS.find_all_lcs(self.s, self.r)
 
-        #self.assertEqual(all_TODO_name, "todo_insert_array")  # TODO
+        # self.assertEqual(all_TODO_name, "todo_insert_array")  # TODO

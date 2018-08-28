@@ -1,5 +1,6 @@
 """
-Script made for computing the Longest Common Subsequence of two strings. Mainly used with DNA strings.
+Script made for computing the Longest Common Subsequence of two strings.
+Used with DNA strings in the course, but is used in the UNIX command `diff` and in `git`.
 """
 
 
@@ -45,10 +46,10 @@ class LCS:
         # Compute the rest of the elements in the array
         for i in range(1, len(s) + 1):
             for j in range(1, len(r) + 1):
-                s_i = s[i-1]
-                r_j = r[j-1]
+                s_i = s[i - 1]
+                r_j = r[j - 1]
 
-                a[i][j] = max(a[i-1][j], a[i][j-1], a[i-1][j-1] + LCS.__f(s_i, r_j))
+                a[i][j] = max(a[i - 1][j], a[i][j - 1], a[i - 1][j - 1] + LCS.__f(s_i, r_j))
 
                 # Insert values for the backtrack matrix
                 if a[i][j] == a[i-1][j]:
@@ -66,12 +67,12 @@ class LCS:
             return result
 
         if b[i][j] == 2:
-            result = result + s[i]
+            result = s[i - 1] + result
             return LCS.print_lcs(b, s, i - 1, j - 1, result)
         elif b[i][j] == 0:
-            return LCS.print_lcs(b, s, i-1, j, result)
+            return LCS.print_lcs(b, s, i - 1, j, result)
         else:
-            return LCS.print_lcs(b, s, i, j-1, result)
+            return LCS.print_lcs(b, s, i, j - 1, result)
 
     @staticmethod
     def find_with_backtrack(s, r):
@@ -90,7 +91,10 @@ class LCS:
         return s, r
 
     @staticmethod
-    def print_tables(a, b, s, r, only_a=True):
+    def print_tables(matrices, s, r, only_a=True):
+        a = matrices[0]
+        b = matrices[1]
+
         # Print dp matrix
         # Print R
         print("DP matrix:")
@@ -109,9 +113,8 @@ class LCS:
             else:
                 print('{} {}'.format(s[i - 1], a[i]))
 
-        if only_a is False:
-            print("")
-            print("Backtrace matrix:")
+        if not only_a:
+            print("\nBacktrace matrix:")
             # Print backtrack matrix
             # Print R
             r_formatted = "   є "

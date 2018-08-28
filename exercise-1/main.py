@@ -5,20 +5,25 @@ Exercise 1 - Algorithms for bioinformatics
 
 from LCS import LCS
 
-s = "AGCTTAGC"
-r = "TCGGATG"
+# TODO: use these ?
+# s = "AGCTTAGC"
+# r = "TCGGATG"
 
-lcs_matrices = LCS.compute_dp_matrix(s, r)
-a = lcs_matrices[0]
-b = lcs_matrices[1]
+# lcs_matrices = LCS.compute_dp_matrix(s, r)
 
-LCS.print_tables(a, b, s, r)
+# LCS.print_tables(lcs_matrices, s, r)
+
+# print(LCS.find_with_backtrack(s, r))
+# print(LCS.find_with_backtrack(r, s))
+# matrices = LCS.compute_dp_matrix("ABCDGH", "AEDFHR")
+# LCS.print_tables(matrices[0], matrices[1], "ABCDGH", "AEDFHR")
 
 # TODO:
 # Task 1 - Compute the LCS DP matrix for LCS(ATTCGGTTA, TAGTGATG)
 s = "ATTCGGTTA"
 r = "TAGTGATG"
-matrix = LCS.compute_dp_matrix(s, r)
+matrices = LCS.compute_dp_matrix(s, r)  # Compute the matrices
+LCS.print_tables(matrices, s, r)  # Print the matrix
 
 # Task 2 - Find the LCS without using a backtrack matrix
 
