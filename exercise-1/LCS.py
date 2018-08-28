@@ -13,17 +13,16 @@ class LCS:
         else:
             return 0
 
-    # TODO: rename => ? find_with_dp ?
     @staticmethod
     def compute_dp_matrix(s, r):
         """
-        Static method for returning the LCS of two strings with DP(dynamic programming???)
+        Static method for returning the LCS matrices of two strings with DP(dynamic programming)
         :param s: the first string to compare.
         :param r: the second string to compare.
-        :return: how long the LCS is of the two strings.
+        :return: matrix for the LCS DP matrix and a backtrack matrix
         """
 
-        # Initialize the array
+        # Initialize the arrays
         a = []
         b = []
         for i in range(0, len(s) + 1):
@@ -35,6 +34,7 @@ class LCS:
 
         a[0][0] = 0  # Set the start to 0
 
+        # TODO: init b here too?
         # Initialize the start of S
         for i in range(1, len(s) + 1):  # TODO: + 1?
             a[i][0] = 0
@@ -62,32 +62,69 @@ class LCS:
         return a, b
 
     @staticmethod
-    def print_lcs(b, s, i, j, result):
+    def __print_lcs(b, s, i, j, result):
         if i == 0 or j == 0:
             return result
 
         if b[i][j] == 2:
             result = s[i - 1] + result
-            return LCS.print_lcs(b, s, i - 1, j - 1, result)
+            return LCS.__print_lcs(b, s, i - 1, j - 1, result)
         elif b[i][j] == 0:
-            return LCS.print_lcs(b, s, i - 1, j, result)
+            return LCS.__print_lcs(b, s, i - 1, j, result)
         else:
-            return LCS.print_lcs(b, s, i, j - 1, result)
+            return LCS.__print_lcs(b, s, i, j - 1, result)
 
     @staticmethod
-    def find_with_backtrack(s, r):
+    def __print_lcs_without_backtrack(a, s, i, j, result):
+        if i == 0 or j == 0:
+            return result
+
+        if a[i][j] == a[i-1][j]:
+            return LCS.__print_lcs_without_backtrack(a, s, i - 1, j, result)
+        elif a[i][j] == a[i-1][j-1] + 1:
+            result = s[i - 1] + result
+            return LCS.__print_lcs_without_backtrack(a, s, i - 1, j - 1, result)
+        else:
+            return LCS.__print_lcs_without_backtrack(a, s, i, j - 1, result)
+
+    # TODO: rename/remove?
+    @staticmethod
+    def print_lcss(b, s, i, j, result, results):
+        if i == 0 or j == 0:
+            results.append(result)
+            return results
+
+        if b[i][j] == 2:
+            result = s[i - 1] + result
+            return LCS.print_lcss(b, s, i - 1, j - 1, result, results)
+        elif b[i][j] == 0:
+            return LCS.print_lcss(b, s, i - 1, j, result, results)
+        else:
+            return LCS.print_lcss(b, s, i, j - 1, result, results)
+
+    @staticmethod
+    def find(s, r, with_backtrack=False):
+        matrices = LCS.compute_dp_matrix(s, r)
+        i = len(s)
+        j = len(r)
+
+        if with_backtrack:
+            b = matrices[1]
+            return LCS.__print_lcs(b, s, i, j, "")
+        else:
+            a = matrices[0]
+            return LCS.__print_lcs_without_backtrack(a, s, i, j, "")
+
+    # TODO: rename/remove?
+    @staticmethod
+    def find_with_backtrack_test(s, r):
         b = LCS.compute_dp_matrix(s, r)[1]
         i = len(s)
         j = len(r)
-        return LCS.print_lcs(b, s, i, j, "")
+        return LCS.print_lcss(b, s, i, j, "", [])
 
     @staticmethod
-    def find_without_backtrack(s, r):
-        # TODO: is this using a recursive LCS?
-        return s, r
-
-    @staticmethod
-    def find_all_lcs(s, r):
+    def find_all(s, r):
         return s, r
 
     @staticmethod
