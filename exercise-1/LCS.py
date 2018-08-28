@@ -1,6 +1,6 @@
 """
 Script made for computing the Longest Common Subsequence of two strings.
-Used with DNA strings in the course, but is used in the UNIX command `diff` and in `git`.
+Used with DNA strings in the course. And it is also used in the UNIX command `diff` and in `git`.
 """
 
 
@@ -81,26 +81,11 @@ class LCS:
 
         if a[i][j] == a[i-1][j]:
             return LCS.__print_lcs_without_backtrack(a, s, i - 1, j, result)
+        elif a[i][j] == a[i][j-1]:
+            return LCS.__print_lcs_without_backtrack(a, s, i, j - 1, result)
         elif a[i][j] == a[i-1][j-1] + 1:
             result = s[i - 1] + result
             return LCS.__print_lcs_without_backtrack(a, s, i - 1, j - 1, result)
-        else:
-            return LCS.__print_lcs_without_backtrack(a, s, i, j - 1, result)
-
-    # TODO: rename/remove?
-    @staticmethod
-    def print_lcss(b, s, i, j, result, results):
-        if i == 0 or j == 0:
-            results.append(result)
-            return results
-
-        if b[i][j] == 2:
-            result = s[i - 1] + result
-            return LCS.print_lcss(b, s, i - 1, j - 1, result, results)
-        elif b[i][j] == 0:
-            return LCS.print_lcss(b, s, i - 1, j, result, results)
-        else:
-            return LCS.print_lcss(b, s, i, j - 1, result, results)
 
     @staticmethod
     def find(s, r, with_backtrack=False):
@@ -115,17 +100,36 @@ class LCS:
             a = matrices[0]
             return LCS.__print_lcs_without_backtrack(a, s, i, j, "")
 
-    # TODO: rename/remove?
     @staticmethod
-    def find_with_backtrack_test(s, r):
-        b = LCS.compute_dp_matrix(s, r)[1]
-        i = len(s)
-        j = len(r)
-        return LCS.print_lcss(b, s, i, j, "", [])
+    def __print_all_lcss_without_backtrack(a, s, r, i, j, result, results):
+        if i == 0 or j == 0:
+            # TODO: temp?
+            exists = False
+            for i in range(0, len(results)):
+                if results[i] == result:
+                    exists = True
+                    break
+            if not exists:
+                results.append(result)
+
+            return results
+
+        if a[i][j] == a[i - 1][j]:
+            LCS.__print_all_lcss_without_backtrack(a, s, r, i - 1, j, result, results)
+        if a[i][j] == a[i][j - 1]:
+            LCS.__print_all_lcss_without_backtrack(a, s, r, i, j - 1, result, results)
+        if a[i][j] == a[i - 1][j - 1] + 1 and LCS.__f(s[i - 1], r[j - 1]) == 1:
+            result = s[i - 1] + result
+            LCS.__print_all_lcss_without_backtrack(a, s, r, i - 1, j - 1, result, results)
 
     @staticmethod
     def find_all(s, r):
-        return s, r
+        a = LCS.compute_dp_matrix(s, r)[0]
+        i = len(s)
+        j = len(r)
+        array = []
+        LCS.__print_all_lcss_without_backtrack(a, s, r, i, j, "", array)
+        return array
 
     @staticmethod
     def print_tables(matrices, s, r, only_a=True):
@@ -151,7 +155,7 @@ class LCS:
                 print('{} {}'.format(s[i - 1], a[i]))
 
         if not only_a:
-            print("\nBacktrace matrix:")
+            print("\nBacktrack matrix:")
             # Print backtrack matrix
             # Print R
             r_formatted = "   є "

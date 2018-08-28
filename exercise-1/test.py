@@ -6,7 +6,8 @@ from LCS import LCS
 class TestLCS(TestCase):
     s = "AGCTTAGC"
     r = "TCGGATG"
-    expected_solution = "ATG"  # TODO: replace with all solutions, e.g. CTG, TAG...? aswell
+    expected_solution = "ATG"
+    all_expected_solutions = ['ATG', 'GTG', 'CTG', 'TTG', 'GAG', 'CAG', 'TAG']
 
     def test_some_lcss(self):
         # S = "SSSS" and R = "SS" => LCS = "SS"
@@ -37,8 +38,25 @@ class TestLCS(TestCase):
         lcs = LCS.find(self.s, self.r, True)
         lcs_switched = LCS.find(self.r, self.s, True)
 
-        # TODO: test with all elements when done?
         self.assertEqual(len(lcs), len(lcs_switched))
+
+    def test_all_switching_s_and_r(self):
+        solutions = LCS.find_all(self.s, self.r)
+        solutions_switched = LCS.find_all(self.r, self.s)
+
+        same_elements = True
+        for i in range(0, len(solutions)):
+            found = False
+            for j in range(0, len(solutions_switched)):
+                if solutions[i] == solutions_switched[j]:
+                    found = True
+                    break
+
+            if not found:
+                same_elements = False
+                break
+
+        self.assertTrue(same_elements)
 
     def test_same_with_and_without_backtrack(self):
         lcs_with = LCS.find(self.s, self.r, True)
@@ -69,11 +87,11 @@ class TestLCS(TestCase):
         self.assertEqual(solution, self.expected_solution)
 
     def test_without_backtrack(self):
-        length = LCS.find(self.s, self.r)
+        solution = LCS.find(self.s, self.r)
 
-        # self.assertEqual(length, 3)  # TODO:
+        self.assertEqual(solution, self.expected_solution)
 
-    def test_find_all_sqsssTODO(self):
-        all_TODO_name = LCS.find_with_backtrack_test(self.s, self.r)
+    def test_find_all(self):
+        all_solutions = LCS.find_all(self.s, self.r)
 
-        # self.assertEqual(all_TODO_name, "todo_insert_array")  # TODO
+        self.assertEqual(all_solutions, self.all_expected_solutions)
