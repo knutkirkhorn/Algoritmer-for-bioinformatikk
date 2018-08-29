@@ -33,15 +33,17 @@ class LCS:
                 b[i].append([])
 
         a[0][0] = 0  # Set the start to 0
+        b[0][0] = 0
 
-        # TODO: init b here too?
         # Initialize the start of S
-        for i in range(1, len(s) + 1):  # TODO: + 1?
+        for i in range(1, len(s) + 1):
             a[i][0] = 0
+            b[i][0] = 0
 
         # Initialize the start of R
         for j in range(1, len(r) + 1):
             a[0][j] = 0
+            b[0][j] = 0
 
         # Compute the rest of the elements in the array
         for i in range(1, len(s) + 1):
@@ -182,6 +184,6 @@ class LCS:
             # Print S and rest of table
             for i in range(0, len(b)):
                 if i == 0:
-                    print("є [ _, _, _, _, _, _, _, _]")
+                    print("є {}".format(b[i]))
                 else:
                     print('{} {}'.format(s[i - 1], b[i]))
