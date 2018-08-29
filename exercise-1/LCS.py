@@ -16,10 +16,10 @@ class LCS:
     @staticmethod
     def compute_dp_matrix(s, r):
         """
-        Static method for returning the LCS matrices of two strings with DP(dynamic programming)
+        Static method for returning the LCS matrices of two strings with DP(dynamic programming).
         :param s: the first string to compare.
         :param r: the second string to compare.
-        :return: matrix for the LCS DP matrix and a backtrack matrix
+        :return: matrix for the LCS DP matrix and a backtrack matrix.
         """
 
         # Initialize the arrays
@@ -89,6 +89,13 @@ class LCS:
 
     @staticmethod
     def find(s, r, with_backtrack=False):
+        """
+        Static method for returning a single solution to LCS(s, r)
+        :param s: the first string to compare.
+        :param r: the second string to compare.
+        :param with_backtrack: if the computation is going to use a backtrack matrix. Default value is False.
+        :return: A single solution of the LCS(s, r).
+        """
         matrices = LCS.compute_dp_matrix(s, r)
         i = len(s)
         j = len(r)
@@ -124,6 +131,12 @@ class LCS:
 
     @staticmethod
     def find_all(s, r):
+        """
+        Static method for returning all solutions to the LCS(s, r).
+        :param s: the first string to compare.
+        :param r: the second string to compare.
+        :return: an array of all solutions to LCS(s, r).
+        """
         a = LCS.compute_dp_matrix(s, r)[0]
         i = len(s)
         j = len(r)
